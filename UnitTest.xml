@@ -1,0 +1,176 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<?xml-stylesheet type="text/xsl" href="UnitTest.xsl"?> 
+
+<truth name="Array - NATIVE">
+	<test name="new Array">
+		<assertions>
+			<value><![CDATA[
+// Tableau vide
+var a11 = new Array ()
+var a12 = Array()
+var a13 = []
+
+// Tableau d'une longueur prédéfinie
+var n = 10
+var a21 = new Array ( n )
+var a22 = Array( n )
+
+// Tableau contenant des éléments
+var m0 = "1"
+var m1 = "2"
+var a31 = new Array ( m0, m1 )
+var a32 = Array( m0, m1 )
+var a33 = [ m0, m1 ]
+			]]></value>
+			<assert><![CDATA[ a11.length === 0 ]]></assert>
+			<assert><![CDATA[ a12.length === 0 ]]></assert>
+			<assert><![CDATA[ a13.length === 0 ]]></assert>
+			<assert><![CDATA[ a21.length === n ]]></assert>
+			<assert><![CDATA[ a22.length === n ]]></assert>
+			<assert><![CDATA[ a31.length === 2 ]]></assert>
+			<assert><![CDATA[ a32.length === 2 ]]></assert>
+			<assert><![CDATA[ a33.length === 2 ]]></assert>
+			
+			<assert><![CDATA[ Array.constructor === Function ]]></assert>
+			<assert><![CDATA[ Array.prototype.constructor === Array ]]></assert>
+			
+			<assert><![CDATA[ a11.constructor === Array ]]></assert>
+			<assert><![CDATA[ a12.constructor === Array ]]></assert>
+			<assert><![CDATA[ a13.constructor === Array ]]></assert>
+			<assert><![CDATA[ a21.constructor === Array ]]></assert>
+			<assert><![CDATA[ a22.constructor === Array ]]></assert>
+			<assert><![CDATA[ a31.constructor === Array ]]></assert>
+			<assert><![CDATA[ a32.constructor === Array ]]></assert>
+			<assert><![CDATA[ a33.constructor === Array ]]></assert>
+		</assertions>
+	</test>
+	<test name="concat">
+		<assertions>
+			<value>
+var a0 = [ 0,1,2,3,4,5 ]
+var a1 = [ 6,7,8,9 ]
+var a2 = a0.concat ( a1 )
+			</value>
+			<assert> a2.length === 10 </assert>
+			<assert> a2.length === 11 </assert>
+			<assert> a2 [0] === 0 </assert>
+			<assert> a2 [9] === 9 </assert>
+		</assertions>
+		<assertions>
+			<value>
+var a = [ 0,1,2,3,4,5 ].concat([])
+			</value>
+			<assert> a.length === 6 </assert>
+		</assertions>
+	</test>
+	<test name="join">
+		<assertions>
+			<value> var a = [ 0,1,2,3,4,5 ]	</value>
+			<assert> a.join ( "¤" ) === "0¤1¤2¤3¤4¤5" </assert>
+		</assertions>
+		<assertions>
+			<value> var a = [] </value>
+			<assert> a.join ( "¤" ) === "" </assert>
+		</assertions>
+	</test>
+	<test name="pop">
+		<assertions>
+			<value> var a = [ 0,1,2,3,4,5 ]	</value>
+			<assert><![CDATA[ a.pop ( ) === 5 && a.length === 5 ]]></assert>
+		</assertions>
+	</test>
+	<test name="push">
+		<assertions>
+			<value> var a = [ 0,1,2,3,4,5 ]	</value>
+			<assert><![CDATA[ a.push ( 6 ) && a.length === 7 && a[6] === 6 ]]></assert>
+		</assertions>
+	</test>
+	<test name="reverse">
+		<assertions>
+			<value> var a = [ 0,1,2,3,4,5 ]	</value>
+			<assert><![CDATA[ a.reverse ( ) && a[0] === 5 ]]></assert>
+		</assertions>
+	</test>
+	<test name="shift">
+		<assertions>
+			<value><![CDATA[ var a = [1,2,3,4] ]]></value>
+			<desc>Tableau d'entier.</desc>
+			<assert><![CDATA[ a.shift ( ) === 1 ]]></assert>
+			<assert><![CDATA[ a.shift ( ) === 2 && a.length == 2 ]]></assert>
+			<assert><![CDATA[ a.shift ( ) === 3 && ! ( a == [4] ) ]]></assert>
+		</assertions>
+		<assertions>
+			<value><![CDATA[ var a = [ ] ]]></value>
+			<desc>Tableau vide.</desc>
+			<assert><![CDATA[ a.shift ( ) == undefined ]]></assert>
+			<assert><![CDATA[ a.length === 0 ]]></assert>
+			<assert><![CDATA[ ! ( a == [] ) ]]></assert>
+		</assertions>
+	</test>
+	<test name="slice">
+		<assertions>
+			<value>
+var a = [ 0,1,2,3,4,5 ]	
+var b1 = a.slice ( 1 , 2)
+var b2 = a.slice ( 2 , -2 )
+var b3 = a.slice ( 2 )
+var b4 = a.slice ( -2 )
+			</value>
+			<assert><![CDATA[ a.length === 6 ]]></assert>
+			<assert><![CDATA[ b1[0] === 1 && b1.length === 1 ]]></assert>
+			<assert><![CDATA[ b2[0] === 2 && b2.length === 2 ]]></assert>
+			<assert><![CDATA[ b3[0] === 2 && b3.length === 4 ]]></assert>
+			<assert><![CDATA[ b4[0] === 4 && b4.length === 2 ]]></assert>
+		</assertions>
+	</test>
+	<test name="sort">
+		<assertions>
+			<value><![CDATA[
+var a = [ 3,4,5,0,1,2 ]
+var f = function ( m1 , m2 ){
+	return m1 < m2 ? 1 : ( m1 > m2 ? -1 : 0 );
+	}
+var b1 = a.sort()
+			]]></value>
+			<assert><![CDATA[ b1 === a && a[0] === 0 ]]></assert>
+			<assert><![CDATA[ a.sort( f ) && a[0] === 5 ]]></assert>
+		</assertions>
+		<assertions>
+			<value><![CDATA[
+var o1 = { nId: 1, nParentId: 1 }
+var o2 = { nId: 2, nParentId: 1 }
+var a = [ o1 , o2 ]
+var f = function ( m1 , m2 ){
+	return ( m1[ 'nParentId' ] > m2[ 'nParentId' ] )
+		? 1
+		: ( m1[ 'nParentId' ] < m2[ 'nParentId' ]
+			? -1
+			: 0 );
+	}
+a.sort( f )
+			]]></value>
+			<assert><![CDATA[ a[0].nId === Browser.isChrome ? 2 : 1 ]]></assert>
+			<assert><![CDATA[ a[1].nId === Browser.isChrome ? 1 : 2 ]]></assert>
+		</assertions>
+	</test>
+	<test name="splice">
+		<assertions>
+			<value> 
+var a = [ 0,1,2,7,8,5 ]
+var a1 = a.splice ( 3 , 3 , 3 , 4 )
+var a2 = [ 0,1,2,7,8,5 ].splice ( 3 , 10 )
+			</value>
+			<assert><![CDATA[ a.length === 5 && a[3] === 3 && a[4] === 4 && a1.length === 3 ]]></assert>
+			<assert><![CDATA[ a2.length === 3 ]]></assert>
+		</assertions>
+	</test>
+	<test name="unshift">
+		<assertions>
+			<value> 
+var a = [ 4,5 ]
+a.unshift ( 0,1,2,3 )
+			</value>
+			<assert><![CDATA[ a.length === 6 ]]></assert>
+		</assertions>
+	</test>
+</truth>
