@@ -9,65 +9,7 @@
 <html>
 <head>
 	<title><xsl:value-of select="@name"/></title>
-	<style>
-DL { margin: 0; }
-
-/* legend */
-.legend {
-	border: 1px solid #000;
-	box-shadow: 0 0 1em #999;
-	float: right;
-	}
-.legend DD {
-	margin: 0;
-	padding: .2em .5em;
-	}
-
-/* test */
-H1,H2,H3 {
-	margin: 0;
-	padding: 0;
-	}
-.desc {
-	margin: .5em;
-	}
-.test {
-	background: #FFE;
-	border: 1px solid #000;
-	box-shadow: 0 0 1em #999;
-	float: left;
-	margin: 0 0 1em 1em ;
-	padding: 0.25em;
-	}
-	.test > H2 { padding-left: .25em; }
-	.test > .desc {}
-	.assertions {
-		background: #FFC;
-		border: 1px solid #aaa;
-		box-shadow: 0 0 .25em #999;
-		margin: .25em;
-		padding: .25em;
-		}
-		.assertions > H3 { padding-left: .25em; }
-		.assertions > .desc {}
-		.value {
-			background: #FFF;
-			box-shadow: inset 0 0 .25em #999;
-			margin: 0 0 .25em 0;
-			border: 1px solid #ccc;
-			padding: 0 1em;
-			}
-		.assertions DT {
-			border-radius: 1em;
-			margin-top: 1px;
-			padding: 0 1em;
-			}
-	
-/* result */
-.red { background: red; }
-.orange { background: orange; }
-.green { background: darkgreen; color:#FFF; }
-	</style>
+	<link rel="stylesheet" type="text/css" href="UnitTest.css" />
 </head>
 <body>
 	<dl class="legend">
