@@ -15,41 +15,58 @@ DL { margin: 0; }
 /* legend */
 .legend {
 	border: 1px solid #000;
+	box-shadow: 0 0 1em #999;
 	float: right;
 	}
-DD {
+.legend DD {
 	margin: 0;
 	padding: .2em .5em;
 	}
 
 /* test */
-H2 {
-	margin:0;
-	padding: 0 .5em;
+H1,H2,H3 {
+	margin: 0;
+	padding: 0;
+	}
+.desc {
+	margin: .5em;
 	}
 .test {
 	background: #FFE;
 	border: 1px solid #000;
+	box-shadow: 0 0 1em #999;
 	float: left;
 	margin: 0 0 1em 1em ;
 	padding: 0.25em;
 	}
-.value {
-	margin: .25em 0;
-	border: 1px solid #aaa;
-	padding: .25em 1em;
-	}
-.desc , .assertions {
-	}
+	.test > H2 { padding-left: .25em; }
+	.test > .desc {}
+	.assertions {
+		background: #FFC;
+		border: 1px solid #aaa;
+		box-shadow: 0 0 .25em #999;
+		margin: .25em;
+		padding: .25em;
+		}
+		.assertions > H3 { padding-left: .25em; }
+		.assertions > .desc {}
+		.value {
+			background: #FFF;
+			box-shadow: inset 0 0 .25em #999;
+			margin: 0 0 .25em 0;
+			border: 1px solid #ccc;
+			padding: 0 1em;
+			}
+		.assertions DT {
+			border-radius: 1em;
+			margin-top: 1px;
+			padding: 0 1em;
+			}
 	
 /* result */
-DT {
-	margin-top: 1px;
-	padding: 0 .5em;
-	}
-.green { background: darkgreen; color:#FFF; }
-.orange { background: orange; }
 .red { background: red; }
+.orange { background: orange; }
+.green { background: darkgreen; color:#FFF; }
 	</style>
 </head>
 <body>
@@ -60,39 +77,51 @@ DT {
 	</dl>
 	
 	<h1><xsl:value-of select="@name"/></h1>
+	<xsl:if test="desc">
+		<div class="desc"><xsl:copy-of select="desc"/></div>
+	</xsl:if>
 	
 	<script>var aUnitTest = []</script>
 	
 	<xsl:for-each select="test">
 	<div class="test">
-		<h2><xsl:value-of select="@name"/></h2>
+		<xsl:if test="@name">
+			<h2><xsl:value-of select="@name"/></h2>
+		</xsl:if>
+		<xsl:if test="desc">
+			<div class="desc"><xsl:copy-of select="desc"/></div>
+		</xsl:if>
+		
 		<xsl:for-each select="assertions">
 		<div class="assertions">
-		
-		<pre class="value"><xsl:value-of select="value" /></pre>
-		<script><xsl:value-of select="value"/></script>
-		<dl>
-			<xsl:for-each select="assert">
-			<dt><xsl:value-of select="current()"/></dt>
-			<script>
-				try{
-					aUnitTest.push([(<xsl:value-of select="current()"/>)?2:1,''])
-				}catch(e){
-					aUnitTest.push([0,e.message])
-					}
-			</script>
-			</xsl:for-each>
-		</dl>
-		
+			<xsl:if test="@name">
+				<h3><xsl:value-of select="@name"/></h3>
+			</xsl:if>
+			<xsl:if test="desc">
+				<div class="desc"><xsl:copy-of select="desc"/></div>
+			</xsl:if>
+			<xsl:if test="value">
+				<pre class="value"><xsl:value-of select="value" /></pre>
+				<script><xsl:value-of select="value"/></script>
+			</xsl:if>
+			<dl>
+				<xsl:for-each select="assert">
+				<dt><xsl:value-of select="current()"/></dt>
+				<script>
+					try{
+						aUnitTest.push([(<xsl:value-of select="current()"/>)?2:1,''])
+					}catch(e){
+						aUnitTest.push([0,e.message])
+						}
+				</script>
+				</xsl:for-each>
+			</dl>
 		</div>
 		</xsl:for-each>
 	</div>
 	</xsl:for-each>
 	
 	<script>
-		function getDT_H2( eDT ){
-			return eDT.parentNode.parentNode.parentNode.firstChild
-			}
 		var aDT = document.getElementsByTagName('DT')
 		var aDD = document.getElementsByTagName('DD')
 		var oColor = { 0:'red', 1:'orange', 2:'green' }
@@ -102,8 +131,6 @@ DT {
 			aDD[n].count++
 			aDT[i].className = oColor[n]
 			aDT[i].title = aUnitTest[i][1]
-			if( n==0 || n==1 )
-				getDT_H2( aDT[i]).className = oColor[n]
 			}
 		for(var i=0; aDD[i]; i++ ) aDD[i].innerHTML += ' '+ aDD[i].count
 	</script>

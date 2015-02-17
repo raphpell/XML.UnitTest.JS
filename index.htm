@@ -5,25 +5,55 @@
 <body>
 <h1>XML.UnitTest.JS</h1>
 
-<p>Tests unitaires JavaScript à l'aide de fichier XML et XSL.</p>
-
-<h2>Principes</h2>
-<ul>
-	<li>Les testes unitaires sont inscrit dans le fichier XML.</li>
-	<li>La mise en page du document XML est définie à l'aide de fichier XSL.</li>
-	<li>Consulter la page XML avec un navigateur pour visualiser le résultat des tests.</li>
-</ul>
-
-<h2>Support</h2>
+<p>Tests unitaires JavaScript réalisés à l'aide de fichier XML et XSL.</p>
 <ul>
 	<li>En ligne, fonctionne avec n'importe navigateur.</li>
 	<li>En local, fonctionne qu'avec Firefox et Internet Explorer.</li>
+	<li>Attention: Les évaluations asynchrones ne sont pas prises en charge...</li>
 </ul>
+<p>Aperçu du résultat = <a href="UnitTest.xml">consultation du document XML</a>.</p>
 
-<h2>Attention</h2>
-<ul>
-	<li>Les évaluations asynchrones ne sont pas prises en charge...</li>
-</ul>
+<h2>Structure des documents XML</h2>
+<pre>
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+
+&lt;!-- Mise en page + évaluation de code --&gt;
+&lt;?xml-stylesheet type="text/xsl" href="UnitTest.xsl"?&gt;
+
+&LT;!-- TITRE 1 --&GT;
+&lt;truth name="Object Array"> 
+
+	&LT;!-- TITRE 2 --&GT;
+	&lt;test name="Array.prototype.join"&gt;
+	
+		&LT;!-- GROUPE --&GT;
+		&lt;assertions&gt; 
+		
+			&LT;!-- CODE À ÉVALUER AVANT ! --&GT;
+			&lt;value&gt; 
+var a = [ 0,1,2,3,4,5 ]
+			&lt;/value&gt;
+			
+			&LT;!-- LES TESTS UNITAIRES --&GT;
+			&lt;assert&gt; a.join("¤") === "0¤1¤2¤3¤4¤5" &lt;/assert&gt;
+			&lt;assert&gt; a.join(";") === "0;1;2;3;4;5" &lt;/assert&gt;
+		&lt;/assertions&gt;
+		
+		
+		&LT;!-- GROUPE --&GT;
+		&lt;assertions&gt;
+			
+		&lt;/assertions&gt;
+		
+	&lt;/test&gt;
+	
+	&LT;!-- TITRE 2 --&GT;
+	&lt;test name="Array.prototype.shift"&gt;
+		
+	&lt;/test&gt;
+&lt;/truth&gt;
+
+</pre>
 
 </body>
 </html>
