@@ -15,10 +15,18 @@
 </head>
 <body>
 	<dl class="legend">
-		<dd class="red">erreur</dd>
-		<dd class="orange">raté</dd>
-		<dd class="green">réussi</dd>
+		<dd class="red">Erreur</dd>
+		<dd class="orange">Echec</dd>
+		<dd class="green">Réussi</dd>
 	</dl>
+	
+	<xsl:if test="script|link">
+	<dl class="required">
+		<dd><b>Requis</b></dd>
+		<xsl:for-each select="script"><dd><xsl:value-of select="@src"/></dd></xsl:for-each>
+		<xsl:for-each select="link"><dd><xsl:value-of select="@href"/></dd></xsl:for-each>
+	</dl>
+	</xsl:if>
 	
 	<h1><xsl:value-of select="@name"/></h1>
 	<xsl:if test="desc">
@@ -53,7 +61,8 @@
 				<dt><xsl:value-of select="current()"/></dt>
 				<script>
 					try{
-						aUnitTest.push([(<xsl:value-of select="current()"/>)?2:1,''])
+						var result = (<xsl:value-of select="current()"/>)
+						aUnitTest.push([result?2:1,JSON.stringify(result)])
 					}catch(e){
 						aUnitTest.push([0,e.message])
 						}
@@ -65,7 +74,7 @@
 	</div>
 	</xsl:for-each>
 	
-	<script>
+	<script><![CDATA[
 		var aDT = document.getElementsByTagName('DT')
 		var aDD = document.getElementsByTagName('DD')
 		var oColor = { 0:'red', 1:'orange', 2:'green' }
@@ -76,8 +85,11 @@
 			aDT[i].className = oColor[n]
 			aDT[i].title = aUnitTest[i][1]
 			}
-		for(var i=0; aDD[i]; i++ ) aDD[i].innerHTML += ' '+ aDD[i].count
-	</script>
+		for(var i=0; i<3; i++ ){
+			if( aDD[i].count !== undefined )
+				aDD[i].innerHTML += ' '+ aDD[i].count
+			}
+	]]></script>
 
 </body>
 </html>

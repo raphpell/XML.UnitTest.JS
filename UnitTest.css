@@ -11,6 +11,15 @@ DL { margin: 0; }
 	padding: .2em .5em;
 	}
 
+/* required */
+.required {
+	float: right;
+	}
+.required DD {
+	margin: 0;
+	padding: .2em .5em;
+	}
+
 /* test */
 H1,H2,H3 {
 	margin: 0;
