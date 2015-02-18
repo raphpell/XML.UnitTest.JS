@@ -10,6 +10,8 @@
 <head>
 	<title><xsl:value-of select="@name"/></title>
 	<link rel="stylesheet" type="text/css" href="UnitTest.css" />
+	<xsl:for-each select="link"><xsl:copy-of select="current()"/></xsl:for-each>
+	<xsl:for-each select="script"><xsl:copy-of select="current()"/></xsl:for-each>
 </head>
 <body>
 	<dl class="legend">
