@@ -6,22 +6,24 @@
 <h1>XML.UnitTest.JS</h1>
 
 <p>Tests unitaires JavaScript réalisés à l'aide de fichier XML et XSL.</p>
-<ul>
-	<li>En ligne, fonctionne avec n'importe navigateur.</li>
-	<li>En local, fonctionne qu'avec Firefox et Internet Explorer.</li>
-	<li>Attention: Les évaluations asynchrones ne sont pas prises en charge...</li>
-</ul>
-<p>Aperçu du résultat = <a href="UnitTest.xml">consultation du document XML</a>.</p>
 
-<h2>Structure des documents XML</h2>
+<ul>
+	<li>En local, fonctionne avec Firefox et Internet Explorer.</li>
+	<li>En ligne, pas de limitation.</li>
+	<li>Les évaluations asynchrones ne sont pas testables pour l'instant.</li>
+</ul>
+<p><a href="UnitTest.xml">Aperçu du résultat</a>.</p>
+
+<h2>Structure du document XML</h2>
 <pre>
 &lt;?xml version='1.0' encoding='UTF-8'?&gt;
-
-&lt;!-- Mise en page + évaluation de code --&gt;
 &lt;?xml-stylesheet type="text/xsl" href="UnitTest.xsl"?&gt;
 
 
 &lt;truth name="Titre H1">
+	&lt;script src="../../../js/fichier_requis.js">&lt;/script&gt;
+	&lt;link rel="stylesheet" type="text/css" href="../../../css/fichier_requis.css" /&gt;
+	
 	&lt;desc&gt; Desc 1 &lt;/desc&gt;
 	
 	
@@ -30,8 +32,10 @@
 
 		&lt;assertions name="Titre H3"&gt;
 			&lt;desc&gt; Desc 3 &lt;/desc&gt;
-			&lt;value&gt;&lt;![CDATA[ /* Code JavaScript à évaluer avant les tests */ ]]&gt;&lt;/value&gt;
-			&lt;assert&gt;&lt;![CDATA[ true ]]&gt;&lt;/assert&gt;
+			&lt;value&gt;&lt;![CDATA[
+				/* Code JavaScript à évaluer avant les tests */
+			]]&gt;&lt;/value&gt;
+			&lt;assert&gt; true &lt;/assert&gt;
 			&lt;assert&gt;&lt;![CDATA[ false ]]&gt;&lt;/assert&gt;
 			&lt;assert&gt;&lt;![CDATA[ (function(){throw new Error ( "Coucou" )})() ]]&gt;&lt;/assert&gt;
 			...

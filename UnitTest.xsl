@@ -10,34 +10,52 @@
 <head>
 	<title><xsl:value-of select="@name"/></title>
 	<link rel="stylesheet" type="text/css" href="UnitTest.css" />
+	<!-- Import des fichiers requis -->
 	<xsl:for-each select="link"><xsl:copy-of select="current()"/></xsl:for-each>
 	<xsl:for-each select="script"><xsl:copy-of select="current()"/></xsl:for-each>
+	<script>var aUnitTest = [], aEval = []</script>
 </head>
 <body>
-	<dl class="legend">
-		<dd class="red">Erreur</dd>
-		<dd class="orange">Echec</dd>
-		<dd class="green">Réussi</dd>
-	</dl>
-	
-	<xsl:if test="script|link">
-	<dl class="required">
-		<dd><b>Requis</b></dd>
-		<xsl:for-each select="script"><dd><xsl:value-of select="@src"/></dd></xsl:for-each>
-		<xsl:for-each select="link"><dd><xsl:value-of select="@href"/></dd></xsl:for-each>
-	</dl>
-	</xsl:if>
-	
+	<a href="index.htm">Index</a>
+
 	<h1><xsl:value-of select="@name"/></h1>
+	
+	<!-- Résultat des tests -->
+	<dl class="legend">
+		<dd class="red"><code>erreur</code></dd>
+		<dd class="orange"><code>échec</code></dd>
+		<dd class="green"><code>réussi</code></dd>
+	</dl>
+	<!-- Description du fichier test -->
 	<xsl:if test="desc">
 		<div class="desc"><xsl:copy-of select="desc"/></div>
 	</xsl:if>
-	
-	<script>var aUnitTest = []</script>
+	<!-- Sommaire -->
+	<div class="toc">
+		<b>Sommaire</b>
+		<ul>
+		<xsl:for-each select="test">
+			<xsl:if test="@name"><li class="{@class}"><a href="#{generate-id(current())}"><xsl:value-of select="@name"/></a></li></xsl:if>
+		</xsl:for-each>
+		</ul>
+	</div>
+	<!-- Fichiers requis -->
+	<xsl:if test="script|link">
+	<div class="required">
+		<b>Requis</b>
+		<ul>
+			<xsl:for-each select="script"><li><xsl:value-of select="@src"/></li></xsl:for-each>
+			<xsl:for-each select="link"><li><xsl:value-of select="@href"/></li></xsl:for-each>
+		</ul>
+	</div>
+	</xsl:if>
+
+	<hr style="clear:both;"/>
 	
 	<xsl:for-each select="test">
-	<div class="test">
+	<div class="test {@class}">
 		<xsl:if test="@name">
+			<a name="{generate-id(current())}"></a>
 			<h2><xsl:value-of select="@name"/></h2>
 		</xsl:if>
 		<xsl:if test="desc">
@@ -54,7 +72,14 @@
 			</xsl:if>
 			<xsl:if test="value">
 				<pre class="value"><xsl:value-of select="value" /></pre>
-				<script><xsl:value-of select="value"/></script>
+				<script>try{
+					<xsl:value-of select="value"/>
+					}catch( e){
+						aEval.push( e.message )
+					}finally{
+						aEval.push( 0 )
+						}
+				</script>
 			</xsl:if>
 			<dl>
 				<xsl:for-each select="assert">
@@ -62,7 +87,7 @@
 				<script>
 					try{
 						var result = (<xsl:value-of select="current()"/>)
-						aUnitTest.push([result?2:1,JSON.stringify(result)])
+						aUnitTest.push([result?2:1,result.charAt ? result : JSON.stringify(result)])
 					}catch(e){
 						aUnitTest.push([0,e.message])
 						}
@@ -87,7 +112,14 @@
 			}
 		for(var i=0; i<3; i++ ){
 			if( aDD[i].count !== undefined )
-				aDD[i].innerHTML += ' '+ aDD[i].count
+				aDD[i].innerHTML += ' <b>'+ aDD[i].count +'</b>'
+			}
+		var aPRE = document.getElementsByTagName('PRE')
+		for(var i=0; aPRE[i]; i++ ){
+			if( aEval[i]){
+				aPRE[i].className += ' red'
+				aPRE[i].title = aEval[i]
+				}
 			}
 	]]></script>
 

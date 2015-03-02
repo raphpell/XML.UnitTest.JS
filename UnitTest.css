@@ -4,24 +4,38 @@ DL { margin: 0; }
 .legend {
 	border: 1px solid #000;
 	box-shadow: 0 0 1em #999;
-	float: right;
+	margin: 1em 1em 1em 0;
+	float: left;
+	text-align: center;
+	width: 8em;
+	}
+.legend CODE {
+	float: left;
+	line-height: 1.75em;
+	width: 5em;
 	}
 .legend DD {
 	margin: 0;
 	padding: .2em .5em;
 	}
 
-/* required */
-.required {
-	float: right;
+/* required *//* table of content */
+.required,
+.toc {
+	float: left;
+	margin: .5em 0 1em .5em;
 	}
-.required DD {
+.toc UL,
+.required UL {
+	list-style-type: none;
 	margin: 0;
-	padding: .2em .5em;
+	padding: 0 1em 1em;
 	}
+
 
 /* test */
 H1,H2,H3 {
+    text-shadow: 0 0 2px #ccc;
 	margin: 0;
 	padding: 0;
 	}
@@ -32,9 +46,10 @@ H1,H2,H3 {
 	background: #FFE;
 	border: 1px solid #000;
 	box-shadow: 0 0 1em #999;
-	float: left;
-	margin: 0 0 1em 1em ;
+	display: inline-block;
+	margin: 0 1em 1em 1em ;
 	padding: 0.25em;
+	vertical-align: top;
 	}
 	.test > H2 { padding-left: .25em; }
 	.test > .desc {}
@@ -42,8 +57,10 @@ H1,H2,H3 {
 		background: #FFC;
 		border: 1px solid #aaa;
 		box-shadow: 0 0 .25em #999;
+		display: inline-block;
 		margin: .25em;
 		padding: .25em;
+		vertical-align: top;
 		}
 		.assertions > H3 { padding-left: .25em; }
 		.assertions > .desc {}
@@ -64,3 +81,23 @@ H1,H2,H3 {
 .red { background: red; }
 .orange { background: orange; }
 .green { background: darkgreen; color:#FFF; }
+
+/* */
+LI.preambule  {
+	font-style: italic;
+	margin: .5em 0 0 -1em;
+	}
+DIV.preambule,
+HR {
+	/* visibility: hidden; */
+	background: #FFF;
+	border: none;
+	box-shadow: none;
+	margin: 1em 0;
+	width: 100%;
+	}
+.preambule H2  {
+    letter-spacing: 5px;
+    text-shadow: 0 0 4px #ccc,  0 0 2px #FFC;
+	margin: 1em 0;
+}
