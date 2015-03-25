@@ -4,7 +4,7 @@
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
     doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" />
 
-  
+	
 <xsl:template match="truth">
 <html>
 <head>
@@ -13,7 +13,7 @@
 	<!-- Import des fichiers requis -->
 	<xsl:for-each select="link"><xsl:copy-of select="current()"/></xsl:for-each>
 	<xsl:for-each select="script"><xsl:copy-of select="current()"/></xsl:for-each>
-	<script>var aUnitTest = [], aEval = []</script>
+	<script>var aUnitTest = [], aEval = [], result</script>
 </head>
 <body>
 	<a href="index.htm">Index</a>
@@ -71,14 +71,16 @@
 				<div class="desc"><xsl:copy-of select="desc"/></div>
 			</xsl:if>
 			<xsl:if test="value">
-				<pre class="value"><xsl:value-of select="value" /></pre>
-				<script>try{
-					<xsl:value-of select="value"/>
-					}catch( e){
-						aEval.push( e.message )
-					}finally{
-						aEval.push( 0 )
-						}
+				<xsl:variable name="n"><xsl:number format="0" level="any" /></xsl:variable>
+				<pre class="value" id="{$n}"><xsl:value-of select="value" /></pre>
+				<script>
+					aEval[<xsl:number format="0" level="any" />] = 0
+					try{
+						<xsl:value-of select="value"/>;
+						aEval[<xsl:number format="0" level="any" />] = 1
+					}catch(e){
+						aEval[<xsl:number format="0" level="any" />] = e.message
+					}
 				</script>
 			</xsl:if>
 			<dl>
@@ -86,10 +88,11 @@
 				<dt><xsl:value-of select="current()"/></dt>
 				<script>
 					try{
-						var result = (<xsl:value-of select="current()"/>)
-						aUnitTest.push([result?2:1,result.charAt ? result : JSON.stringify(result)])
+						result =(<xsl:value-of select="current()"/>);
+						aUnitTest[<xsl:number format="0" level="any" />] =
+							[result?2:1,result.charAt ? result : JSON.stringify(result, null, '    ') || '' ];
 					}catch(e){
-						aUnitTest.push([0,e.message])
+						aUnitTest[<xsl:number format="0" level="any" />] = [0,e];
 						}
 				</script>
 				</xsl:for-each>
@@ -105,10 +108,17 @@
 		var oColor = { 0:'red', 1:'orange', 2:'green' }
 		for(var i=0; aDD[i]; i++ ) aDD[i].count = 0
 		for(var i=0; aDT[i]; i++ ){
-			var n = aUnitTest[i][0]
-			aDD[n].count++
-			aDT[i].className = oColor[n]
-			aDT[i].title = aUnitTest[i][1]
+			var a = aUnitTest[i+1]
+			if( a ){
+				var n = a[0]
+				aDD[n].count++
+				aDT[i].className = oColor[n]
+				aDT[i].title = a[1]
+				}
+			else{
+				aDT[i].className += ' syntaxError'
+				aDT[i].title = 'Erreur de syntaxe'
+				}
 			}
 		for(var i=0; i<3; i++ ){
 			if( aDD[i].count !== undefined )
@@ -116,9 +126,14 @@
 			}
 		var aPRE = document.getElementsByTagName('PRE')
 		for(var i=0; aPRE[i]; i++ ){
-			if( aEval[i]){
-				aPRE[i].className += ' red'
-				aPRE[i].title = aEval[i]
+			if( aPRE[i].className=="value" ){
+				var m = aEval[ aPRE[i].id ]
+				switch( m ){
+					case 1: break;
+					default:
+						aPRE[i].className += m ? ' red' : ' syntaxError'
+						aPRE[i].title = m || 'Erreur de syntaxe'
+					}
 				}
 			}
 	]]></script>

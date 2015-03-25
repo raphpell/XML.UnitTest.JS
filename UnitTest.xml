@@ -28,10 +28,10 @@ var a21 = new Array ( 10 )
 	</test>
 
 	<test name="Les infos bulles">
-			<desc>
+		<desc>
 Lors du survol d'un test, une info bulle affiche le résultat au format JSON.<br/>
 <b>Exception:</b> les résultats chaînes ou erreurs.
-			</desc>
+		</desc>
 		<assertions name="réussi">
 			<assert><![CDATA[ "Chaîne de type String" ]]></assert>
 			<assert><![CDATA[ [1,2,3,false,4,5] ]]></assert>
@@ -49,9 +49,9 @@ Lors du survol d'un test, une info bulle affiche le résultat au format JSON.<br
 	</test>
 
 	<test name="Les erreurs">
-			<desc>
+		<desc>
 Si une erreur survient, l'arrière plan devient rouge.
-			</desc>
+		</desc>
 		<assertions>
 			<value><![CDATA[
 // Définition de l'environnement test
@@ -59,6 +59,23 @@ throw new Error ( "Si une erreur survient ici elle n'est pas comptabilisée !" )
 			]]></value>
 			<assert><![CDATA[ (function(){throw new Error ( "Les erreurs sont captées" )})() ]]></assert>
 			<assert><![CDATA[ Browser.isChrome ]]></assert>
+		</assertions>
+	</test>
+
+	<test name="Les erreurs de syntaxe">
+		<desc>
+Les erreurs de syntaxe sont mises en surbrillance.<br/>
+Il suffit d'utiliser FireBug pour connaître l'erreur...
+		</desc>
+		<assertions>
+			<value><![CDATA[
+// Définition de l'environnement test
+test ( "Il manque la suite !
+			]]></value>
+			<assert><![CDATA[ true ]]></assert>
+			<assert><![CDATA[ ( "bloquage"  ]]></assert>
+			<assert><![CDATA[ Browser.isChrome ]]></assert>
+			<assert><![CDATA[ false ]]></assert>
 		</assertions>
 	</test>
 

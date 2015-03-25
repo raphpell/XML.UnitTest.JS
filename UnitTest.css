@@ -81,6 +81,7 @@ H1,H2,H3 {
 .red { background: red; }
 .orange { background: orange; }
 .green { background: darkgreen; color:#FFF; }
+.syntaxError { background: yellow; color:red; font: 1em bold Arial; }
 
 /* */
 LI.preambule  {
