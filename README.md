@@ -9,11 +9,7 @@ Principes
 - La mise en page du document XML est définie à l'aide de fichier XSL.
 - Consulter la page XML avec un navigateur pour visualiser le résultat des tests.
 
-Support
---------
-- En ligne, fonctionne avec n'importe navigateur.
-- En local, fonctionne qu'avec Firefox et Internet Explorer.
-
 Attention
 --------
-- Les évaluations asynchrones ne sont pas prises en charge...
+- Fonctionne uniquement en ligne.
+- Ne fonctionne pas en local.
